@@ -2,16 +2,38 @@
     html { scroll-behavior: smooth; }
 }
 
+/* Site background: pure CSS, replaces back.jpg.
+   A fixed layer behind everything, so it stays put while scrolling (and avoids
+   the iOS bug with background-attachment: fixed). */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+        /* floor glow near the bottom */
+        radial-gradient(ellipse 60% 13% at 48% 89%,
+            rgba(120, 0, 16, 0.95) 0%,
+            rgba(80, 0, 12, 0.55) 45%,
+            rgba(80, 0, 12, 0) 100%),
+        /* main spotlight, just above the middle */
+        radial-gradient(ellipse 75% 62% at 48% 46%,
+            #4d0011 0%,
+            #34000b 30%,
+            #1c0004 58%,
+            #0a0000 82%,
+            #000 100%);
+}
+
 body {
     font-family: sans-serif;
     margin: 0;
     padding: 0;
-    padding-bottom: 100px;
+    min-height: 100vh;
+    min-height: 100dvh;
     line-height: 1.6;
-    background-image: url(back.jpg); /* Replace with your image URL */
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed; /* Optional: Fix background during scroll */
+    background-color: #0a0000;
     color: #fff; /* Text color for better readability */
 }
 
