@@ -207,68 +207,71 @@ var snowFall = (function () {
 
 
 
-// You can add JavaScript for interactive elements here.
-// For example, smooth scrolling to sections.
+// ---------- Page behaviour ----------
 
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
+// Image modal (only runs if the modal and gallery images exist)
+(function () {
+    const modal = document.getElementById("imageModal");
+    const modalImg = document.getElementById("modalImage");
+    const closeBtn = document.querySelector("#imageModal .close");
+    if (!modal || !modalImg || !closeBtn) return;
 
-        document.querySelector(this.getAttribute('href')).scrollIntoView({
-            behavior: 'smooth'
+    document.querySelectorAll(".project img").forEach(img => {
+        img.addEventListener("click", () => {
+            modal.style.display = "block";
+            modalImg.src = img.src;
         });
     });
-    // Smooth scrolling (already present)
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-
-        document.querySelector(this.getAttribute('href')).scrollIntoView({
-            behavior: 'smooth'
-        });
+    closeBtn.addEventListener("click", () => { modal.style.display = "none"; });
+    modal.addEventListener("click", e => {
+        if (e.target === modal) modal.style.display = "none";
     });
-});
+})();
 
-// Image Modal
-const modal = document.getElementById("imageModal");
-const modalImg = document.getElementById("modalImage");
-const closeBtn = document.getElementsByClassName("close")[0];
-
-const projectImages = document.querySelectorAll(".project img");
-
-projectImages.forEach(img => {
-    img.addEventListener("click", () => {
-        modal.style.display = "block";
-        modalImg.src = img.src;
-    });
-});
-
-closeBtn.onclick = function() {
-    modal.style.display = "none";
-}
-
-window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
+// Reveal sections once as they scroll into view
+(function () {
+    const sections = document.querySelectorAll(".section");
+    if (!("IntersectionObserver" in window)) {
+        sections.forEach(s => s.classList.add("show"));
+        return;
     }
-}
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("show");
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+    sections.forEach(s => observer.observe(s));
+})();
 
-// Scroll Animation
-const sections = document.querySelectorAll('.section');
+// Project carousel arrows
+(function () {
+    const track = document.querySelector(".projects-grid");
+    const prev = document.querySelector(".carousel-prev");
+    const next = document.querySelector(".carousel-next");
+    if (!track || !prev || !next) return;
 
-const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('show');
-        } else {
-            entry.target.classList.remove('show');
-        }
-    });
-}, {
-    threshold: 0.1
-});
+    function step() {
+        const card = track.querySelector(".project-card");
+        const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+        return card ? card.getBoundingClientRect().width + gap : track.clientWidth;
+    }
+    function update() {
+        const max = track.scrollWidth - track.clientWidth;
+        prev.classList.toggle("is-hidden", track.scrollLeft <= 4);
+        next.classList.toggle("is-hidden", track.scrollLeft >= max - 4);
+    }
+    prev.addEventListener("click", () => track.scrollBy({ left: -step(), behavior: "smooth" }));
+    next.addEventListener("click", () => track.scrollBy({ left: step(), behavior: "smooth" }));
+    track.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    update();
+})();
 
-sections.forEach(section => {
-    observer.observe(section);
-});
-});
+// Footer year
+(function () {
+    const y = document.getElementById("year");
+    if (y) y.textContent = new Date().getFullYear();
+})();

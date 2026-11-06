@@ -4,10 +4,10 @@
     
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link rel="icon" href="favicon.png" type="image/png">
-    <link rel="">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wilfred</title>
+    <script>document.documentElement.classList.add("js");</script>
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -42,30 +42,26 @@
 
     </section> -->
     <section id="about" class="section about-me">
-        <div class="skill-category">
+        <div class="container about-content">
             <div class="about-image">
                 <img src="port1.jpg" alt="Profile photo of Wilfred Odame-Lartey" style="width:200px; height:200px; object-fit:cover; border-radius:8px; display:block; margin:0 auto 1rem;">
-
-                                 </div>
-    <section id="about" class="section about-me">
-        <div class="container">
-            
-                <div class="about-text">
-                    <h2>About Me</h2>
-                    <p>Driven by a passion for innovation, I've dedicated my career to crafting intuitive and engaging digital experiences. My journey began with a fascination for the intersection of design and technology. I thrive on solving complex problems and transforming them into user-friendly solutions. I approach every project with a blend of creativity, strategic thinking, and a relentless focus on delivering measurable results.</p>
-                    <p>In my previous role at Pastech Solutions, I was in a team of five developers to launch an E-Voting System that achieved over 5,000 user inputs. This success fueled my desire to continue pushing boundaries and creating meaningful impact through design. When I'm not immersed in the world of web-development, you can find me listening to music, cooking, exploring new hobbies, or experimenting with videography/photography.</p>
-                    <a href="https://professional-portfolio-8cnovd5.gamma.site" class="btn btn-secondary">View Resume</a>
-                    
-                </div>
+            </div>
+            <div class="about-text">
+                <h2>About Me</h2>
+                <p>Driven by a passion for innovation, I've dedicated my career to crafting intuitive and engaging digital experiences. My journey began with a fascination for the intersection of design and technology. I thrive on solving complex problems and transforming them into user-friendly solutions. I approach every project with a blend of creativity, strategic thinking, and a relentless focus on delivering measurable results.</p>
+                <p>In my previous role at Pastech Solutions, I was in a team of five developers to launch an E-Voting System that achieved over 5,000 user inputs. This success fueled my desire to continue pushing boundaries and creating meaningful impact through design. When I'm not immersed in the world of web-development, you can find me listening to music, cooking, exploring new hobbies, or experimenting with videography/photography.</p>
+                <a href="https://professional-portfolio-8cnovd5.gamma.site" class="btn btn-secondary">View Resume</a>
             </div>
         </div>
     </section>
 
-   <section class="portfolio-container">
+   <section id="portfolio" class="portfolio-container">
     <div class="side-header">
         <h2>PORTFOLIO</h2>
     </div>
 
+    <div class="carousel">
+    <button class="carousel-btn carousel-prev" type="button" aria-label="Previous project">&#8249;</button>
     <div class="projects-grid">
         <a href="project1.html" 
            class="project-card" 
@@ -112,6 +108,8 @@
         </a>
 
     </div>
+    <button class="carousel-btn carousel-next" type="button" aria-label="Next project">&#8250;</button>
+    </div>
 </section>
     
     <section id="skills" class="section skills">
@@ -140,9 +138,9 @@
                     <h3>Tools & Technologies</h3>
                     <ul>
                         <li>Git/GitHub</li>
-                        <li>Wordpress</li>
+                        <li>WordPress</li>
                         <li>Gamma</li>
-                        <li>XXAMP</li>
+                        <li>XAMPP</li>
                        <!-- <li>[Add other tools/technologies]</li> --->
                     </ul>
                 </div>
@@ -166,13 +164,12 @@
         <section id="contact" class="section">
             <div class="container">
                 <h2>Contact</h2>
-                <p>Email: 
-                    <br><b>morddev@gmailcom</b></p>
-                <p>LinkedIn: <br><b><a href="www.linkedin.com/in/wilfred-odame-lartey-836b15338">LinkedIn Profile</b></a></p>
-                <p>GitHub: <br><b><a href="https://github.com/Williscodez">GitHub Profile</b></a></p>
+                <p>Email: <br><b><a href="mailto:morddev@gmail.com">morddev@gmail.com</a></b></p>
+                <p>LinkedIn: <br><b><a href="https://www.linkedin.com/in/wilfred-odame-lartey-836b15338">LinkedIn Profile</a></b></p>
+                <p>GitHub: <br><b><a href="https://github.com/Williscodez">GitHub Profile</a></b></p>
             </div>
         </section>
-        <p>&copy; 2024 Wilfred-Odame-Lartey. All rights reserved.</p>
+        <p>&copy; <span id="year">2024</span> Wilfred-Odame-Lartey. All rights reserved.</p>
     </footer>
 
     <div id="imageModal" class="modal">
