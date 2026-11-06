@@ -260,8 +260,9 @@ var snowFall = (function () {
     }
     function update() {
         const max = track.scrollWidth - track.clientWidth;
-        prev.classList.toggle("is-hidden", track.scrollLeft <= 4);
-        next.classList.toggle("is-hidden", track.scrollLeft >= max - 4);
+        const noScroll = max <= 4; // everything fits, so no arrows needed
+        prev.classList.toggle("is-hidden", noScroll || track.scrollLeft <= 4);
+        next.classList.toggle("is-hidden", noScroll || track.scrollLeft >= max - 4);
     }
     prev.addEventListener("click", () => track.scrollBy({ left: -step(), behavior: "smooth" }));
     next.addEventListener("click", () => track.scrollBy({ left: step(), behavior: "smooth" }));
