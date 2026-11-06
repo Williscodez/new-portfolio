@@ -702,3 +702,106 @@ footer a:hover {
         overflow-wrap: anywhere;
     }
 }
+
+/* Skills and Education: heading sits above the content */
+.skills .container,
+.education .container {
+    display: block;
+}
+.skills article,
+.education article {
+    width: auto;
+    min-height: 0;
+    margin: 0 0 1.5rem;
+    padding: 16px 24px;
+    align-items: flex-start;
+}
+.skills article h2,
+.education article h2 {
+    font-size: 2rem;
+    margin: 0;
+    text-align: left;
+}
+
+/* Education timeline */
+.timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 0 30px;
+    position: relative;
+}
+.timeline::before {
+    content: "";
+    position: absolute;
+    left: 7px;
+    top: 10px;
+    bottom: 10px;
+    width: 2px;
+    background: rgba(255, 255, 255, 0.2);
+}
+.timeline-item {
+    position: relative;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1.5rem 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1.5rem;
+}
+.timeline-item:last-child {
+    margin-bottom: 0;
+}
+.timeline-item::before {
+    content: "";
+    position: absolute;
+    left: -30px;
+    top: 30px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #1a0509;
+    border: 2px solid rgba(255, 255, 255, 0.7);
+}
+.timeline-item.is-current::before {
+    background: #e0334f;
+    border-color: #e0334f;
+}
+.timeline-status {
+    display: inline-block;
+    font-size: 0.8rem;
+    padding: 2px 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    color: #ddd;
+    margin-bottom: 0.75rem;
+}
+.is-current .timeline-status {
+    border-color: #e0334f;
+    background: rgba(224, 51, 79, 0.2);
+    color: #fff;
+}
+.timeline-item h3 {
+    margin: 0 0 0.25rem;
+    font-size: 1.3rem;
+}
+.timeline-item p {
+    margin: 0 0 0.75rem;
+}
+.timeline-school {
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 0.25rem !important;
+}
+.timeline-meta {
+    color: #bbb;
+    margin-bottom: 1rem !important;
+}
+
+@media (max-width: 768px) {
+    .timeline { padding-left: 24px; }
+    .timeline::before { left: 5px; }
+    .timeline-item { padding: 1.25rem 1.25rem 1.25rem 1.5rem; }
+    .timeline-item::before { left: -24px; top: 26px; }
+    header .container { flex-wrap: wrap; gap: 0.75rem; }
+    header nav { width: 100%; }
+    header nav ul li { margin: 0 0.6rem; }
+}
