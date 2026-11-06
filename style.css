@@ -795,6 +795,12 @@ footer a:hover {
     color: #bbb;
     margin-bottom: 1rem !important;
 }
+.education{
+    flex-direction: column;
+        column-gap: 0;
+        align-items: flex-start;
+        padding: 1.25rem 1.5rem;
+}
 
 @media (max-width: 768px) {
     .timeline { padding-left: 24px; }
