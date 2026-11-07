@@ -795,12 +795,6 @@ footer a:hover {
     color: #bbb;
     margin-bottom: 1rem !important;
 }
-.education{
-    flex-direction: column;
-        column-gap: 0;
-        align-items: flex-start;
-        padding: 1.25rem 1.5rem;
-}
 
 @media (max-width: 768px) {
     .timeline { padding-left: 24px; }
@@ -810,4 +804,88 @@ footer a:hover {
     header .container { flex-wrap: wrap; gap: 0.75rem; }
     header nav { width: 100%; }
     header nav ul li { margin: 0 0.6rem; }
+}
+
+/* Skills: four boxes in a 2x2 grid on larger screens */
+@media (min-width: 769px) {
+    .skills .skills-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .skills .skill-category {
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        column-gap: 0;
+    }
+    .skills .skill-category h3 {
+        margin: 0 0 0.75rem;
+    }
+}
+
+.education {
+    flex-direction: column;
+    column-gap: 0;
+    align-items: flex-start;
+    padding: 1.25rem 1.5rem;
+}
+
+/* Links inside the timeline: default blue is unreadable on dark */
+.timeline a:not(.btn) {
+    color: #fff;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+/* Longer description line inside a timeline entry: normal weight */
+.timeline-detail {
+    font-weight: 400;
+    margin-bottom: 0.75rem;
+}
+
+/* Divider above the name in the hero (replaces the row of underscores) */
+.hero-divider {
+    width: 240px;
+    max-width: 70%;
+    height: 4px;
+    margin: 1.5rem auto;
+    border-radius: 4px;
+    background: linear-gradient(90deg, #e0334f 0%, #ff8fa0 50%, #e0334f 100%);
+    box-shadow: 0 0 14px rgba(255, 90, 115, 0.65), 0 0 2px rgba(255, 255, 255, 0.8);
+}
+
+/* About: quick stats row */
+.about-stats {
+    list-style: none;
+    margin: 0 0 1.5rem;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
+}
+.about-stats li {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 1rem;
+    text-align: left;
+    font-family: 'Times New Roman', Times, serif;
+}
+.about-stats strong {
+    display: block;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.8rem;
+    line-height: 1.2;
+    color: #ff8fa0;
+}
+.about-stats span {
+    display: block;
+    margin-top: 0.25rem;
+    font-size: 0.9rem;
+    line-height: 1.35;
+    color: #ddd;
+}
+@media (max-width: 768px) {
+    .about-stats { gap: 0.5rem; }
+    .about-stats li { padding: 0.75rem; }
+    .about-stats strong { font-size: 1.3rem; }
+    .about-stats span { font-size: 0.8rem; }
 }
