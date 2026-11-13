@@ -919,3 +919,63 @@ footer a:hover {
 @media (max-width: 768px) {
     .about-photo { width: 220px; margin-bottom: 1rem; }
 }
+
+/* Auto-scrolling project strip */
+.projects-grid {
+    padding-top: 12px;   /* room for the hover lift, which was being clipped */
+    margin-top: -12px;
+}
+.projects-grid.is-auto {
+    scroll-snap-type: none; /* snapping fights the slow drift */
+}
+.carousel-toggle {
+    position: absolute;
+    right: 10px;
+    bottom: 26px;
+    z-index: 2;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: rgba(0, 0, 0, 0.5);
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 11px;
+    line-height: 1;
+    cursor: pointer;
+    opacity: 0.75;
+    transition: opacity 0.2s ease;
+}
+.carousel-toggle:hover { opacity: 1; }
+.carousel-toggle[hidden] { display: none; }
+@media (max-width: 768px) {
+    .carousel-toggle { width: 30px; height: 30px; right: 8px; bottom: 22px; }
+}
+
+/* Status pill on a project card (e.g. "In progress") */
+.card-status {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    border: 1px solid #e0334f;
+    background: rgba(0, 0, 0, 0.55);
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 600;
+    line-height: 1.4;
+}
+.card-status::before {
+    content: "";
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    margin-right: 6px;
+    border-radius: 50%;
+    background: #e0334f;
+    vertical-align: middle;
+}
+@media (max-width: 768px) {
+    .card-status { top: 12px; right: 12px; font-size: 0.75rem; padding: 3px 10px; }
+}

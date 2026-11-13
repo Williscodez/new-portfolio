@@ -246,29 +246,103 @@ var snowFall = (function () {
     sections.forEach(s => observer.observe(s));
 })();
 
-// Project carousel arrows
+// Project carousel: arrows, plus a slow auto-scroll that loops
 (function () {
     const track = document.querySelector(".projects-grid");
     const prev = document.querySelector(".carousel-prev");
     const next = document.querySelector(".carousel-next");
+    const toggle = document.querySelector(".carousel-toggle");
     if (!track || !prev || !next) return;
 
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const cards = Array.from(track.querySelectorAll(".project-card"));
+    const SPEED = 34;          // pixels per second
+    let looping = false, loopWidth = 0, pos = 0, last = 0;
+    let userPaused = reduceMotion, hover = false, inView = true, holdUntil = 0;
+
     function step() {
-        const card = track.querySelector(".project-card");
         const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
-        return card ? card.getBoundingClientRect().width + gap : track.clientWidth;
+        return cards.length ? cards[0].getBoundingClientRect().width + gap : track.clientWidth;
     }
-    function update() {
+    function measure() { loopWidth = looping ? track.children[cards.length].offsetLeft - cards[0].offsetLeft : 0; }
+    function hold(ms) { holdUntil = Math.max(holdUntil, performance.now() + ms); }
+
+    // Finite mode (reduced motion): arrows hide at the ends
+    function updateArrows() {
+        if (looping) return;
         const max = track.scrollWidth - track.clientWidth;
-        const noScroll = max <= 4; // everything fits, so no arrows needed
+        const noScroll = max <= 4;
         prev.classList.toggle("is-hidden", noScroll || track.scrollLeft <= 4);
         next.classList.toggle("is-hidden", noScroll || track.scrollLeft >= max - 4);
     }
-    prev.addEventListener("click", () => track.scrollBy({ left: -step(), behavior: "smooth" }));
-    next.addEventListener("click", () => track.scrollBy({ left: step(), behavior: "smooth" }));
-    track.addEventListener("scroll", update, { passive: true });
-    window.addEventListener("resize", update);
-    update();
+
+    // Loop mode: clone the cards once so the strip can wrap around seamlessly
+    if (!reduceMotion && cards.length > 1) {
+        cards.forEach(c => {
+            const clone = c.cloneNode(true);
+            clone.setAttribute("aria-hidden", "true");
+            clone.setAttribute("tabindex", "-1");
+            clone.classList.add("is-clone");
+            track.appendChild(clone);
+        });
+        looping = true;
+        track.classList.add("is-auto");
+        measure();
+    }
+
+    prev.addEventListener("click", () => {
+        hold(6000);
+        if (looping && track.scrollLeft < step()) track.scrollTo({ left: track.scrollLeft + loopWidth, behavior: "instant" });
+        track.scrollBy({ left: -step(), behavior: "smooth" });
+    });
+    next.addEventListener("click", () => {
+        hold(6000);
+        track.scrollBy({ left: step(), behavior: "smooth" });
+    });
+    track.addEventListener("scroll", () => {
+        if (looping && track.scrollLeft >= loopWidth) track.scrollTo({ left: track.scrollLeft - loopWidth, behavior: "instant" });
+        updateArrows();
+    }, { passive: true });
+    window.addEventListener("resize", () => { measure(); updateArrows(); });
+    updateArrows();
+    if (!looping) { if (toggle) toggle.hidden = true; return; }
+
+    // Pause whenever the visitor is interacting, or the strip is off screen
+    const carousel = track.closest(".carousel");
+    carousel.addEventListener("mouseenter", () => { hover = true; });
+    carousel.addEventListener("mouseleave", () => { hover = false; });
+    carousel.addEventListener("focusin", () => { hold(8000); });
+    track.addEventListener("touchstart", () => hold(4000), { passive: true });
+    track.addEventListener("touchend", () => hold(3000), { passive: true });
+    track.addEventListener("wheel", () => hold(3000), { passive: true });
+    if ("IntersectionObserver" in window) {
+        new IntersectionObserver(e => { inView = e[0].isIntersecting; }, { threshold: 0.2 }).observe(carousel);
+    }
+
+    function setToggle() {
+        if (!toggle) return;
+        toggle.textContent = userPaused ? "\u25B6" : "\u275A\u275A";
+        toggle.setAttribute("aria-label", userPaused ? "Play auto-scroll" : "Pause auto-scroll");
+        toggle.setAttribute("aria-pressed", String(userPaused));
+    }
+    if (toggle) toggle.addEventListener("click", () => { userPaused = !userPaused; setToggle(); });
+    setToggle();
+
+    function tick(now) {
+        const dt = Math.min((now - (last || now)) / 1000, 0.1);
+        last = now;
+        const idle = !userPaused && !hover && inView && !document.hidden && now >= holdUntil;
+        if (idle) {
+            if (Math.abs(track.scrollLeft - pos) > 2) pos = track.scrollLeft; // the visitor moved it
+            pos += SPEED * dt;
+            if (pos >= loopWidth) pos -= loopWidth;
+            track.scrollLeft = pos;
+        } else {
+            pos = track.scrollLeft;
+        }
+        requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
 })();
 
 // Footer year
