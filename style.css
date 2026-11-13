@@ -979,3 +979,11 @@ footer a:hover {
 @media (max-width: 768px) {
     .card-status { top: 12px; right: 12px; font-size: 0.75rem; padding: 3px 10px; }
 }
+
+/* Hero buttons side by side, wrapping on small screens */
+.hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+}
